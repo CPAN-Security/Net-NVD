@@ -11,9 +11,7 @@ our $VERSION = '0.0.1';
 
 package Net::NVD {
   sub new ($class, %args) {
-    return bless {
-      ua => _build_user_agent($args{api_key}),
-    }, $class;
+    return bless { ua => _build_user_agent($args{api_key}) }, $class;
   }
 
   sub get ($self, $cve_id) {
@@ -36,35 +34,35 @@ package Net::NVD {
   }
 
   sub _build_url_params ($ua, %params) {
-    my $iso8061 = qr{\A\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}(?:\+\-\d{2}:\d{2})?\z};
+    my $iso8061 = qr{\A\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:[\+\-]\d{2}:\d{2})?\z};
     my %translation = (
-      cpe_name             => { name => 'cpeName', validation => qr{\Acpe:2.3(\:[^*:]+){4}(\:[^:]+){7}\z} },
-      cve_id               => { name => 'cveId', validation => qr{\ACVE\-[0-9]{4}\-[0-9]+\z} },
-      cvssv2_metrics       => { name => 'cvssV2Metrics', validation => qr{.} },
-      cvssV2Severity       => { name => 'cvssV2Severity', validation => qr{\A(?:LOW|MEDIUM|HIGH)\z} },
-      cvssv3_metrics       => { name => 'cvssV3Metrics', validation => qr{.} },
-      cvssv3_severity      => { name => 'cvssV3Severity', validation => qr{\A(?:LOW|MEDIUM|HIGH|CRITICAL)\z} },
-      cwe_id               => { name => 'cweId', validation => qr{\ACWE\-\d+\z} },
-      has_cert_alerts      => { name => 'hasCertAlerts', boolean => 1 },
-      has_cert_notes       => { name => 'hasCertNotes', boolean => 1 },
-      has_kev              => { name => 'hasKev', boolean => 1 },
-      has_oval             => { name => 'hasOval', boolean => 1 },
-      is_vulnerable        => { name => 'isVulnerable', boolean => 1 },
-      keyword_exact_match  => { name => 'keywordExactMatch', boolean => 1 },
-      keyword_search       => { name => 'keywordSearch', validation => qr{\A.+\z} },
-      last_mod_start_date  => { name => 'lastModStartDate', validation => $iso8061 },
-      last_mod_end_date    => { name => 'lastModEndDate', validation => $iso8061 },
-      no_rejected          => { name => 'noRejected', boolean => 1 },
-      pub_start_date       => { name => 'pubStartDate', validation => $iso8061 },
-      pub_end_date         => { name => 'pubEndDate', validation => $iso8061 },
-      results_per_page     => { name => 'resultsPerPage', validation => qr{\A\d+\z} },
-      start_index          => { name => 'startIndex', validation => qr{\A\d+\z} },
-      source_identifier     => { name => 'sourceIdentifier', validation => qr{.} },
-      version_end          => { name => 'versionEnd', validation => qr{.} },
-      version_end_type     => { name => 'versionEndType', validation => qr{\A(?:including|excluding)\z} },
-      version_start        => { name => 'versionStart', validation => qr{.} },
-      version_start_type   => { name => 'versionStartType', validation => qr{\A(?:including|excluding)\z} },
+      cpe_name             => { name => 'cpeName'           , validation => qr{\Acpe:2.3(\:[^*:]+){4}(\:[^:]+){7}\z} },
+      cve_id               => { name => 'cveId'             , validation => qr{\ACVE\-[0-9]{4}\-[0-9]+\z} },
+      cvssv2_metrics       => { name => 'cvssV2Metrics'     , validation => qr{.} },
+      cvssV2Severity       => { name => 'cvssV2Severity'    , validation => qr{\A(?:LOW|MEDIUM|HIGH)\z} },
+      cvssv3_metrics       => { name => 'cvssV3Metrics'     , validation => qr{.} },
+      cvssv3_severity      => { name => 'cvssV3Severity'    , validation => qr{\A(?:LOW|MEDIUM|HIGH|CRITICAL)\z} },
+      cwe_id               => { name => 'cweId'             , validation => qr{\ACWE\-\d+\z} },
+      keyword_search       => { name => 'keywordSearch'     , validation => qr{\A.+\z} },
+      last_mod_start_date  => { name => 'lastModStartDate'  , validation => $iso8061 },
+      last_mod_end_date    => { name => 'lastModEndDate'    , validation => $iso8061 },
+      pub_start_date       => { name => 'pubStartDate'      , validation => $iso8061 },
+      pub_end_date         => { name => 'pubEndDate'        , validation => $iso8061 },
+      results_per_page     => { name => 'resultsPerPage'    , validation => qr{\A\d+\z} },
+      start_index          => { name => 'startIndex'        , validation => qr{\A\d+\z} },
+      source_identifier    => { name => 'sourceIdentifier'  , validation => qr{.} },
+      version_end          => { name => 'versionEnd'        , validation => qr{.} },
+      version_end_type     => { name => 'versionEndType'    , validation => qr{\A(?:including|excluding)\z} },
+      version_start        => { name => 'versionStart'      , validation => qr{.} },
+      version_start_type   => { name => 'versionStartType'  , validation => qr{\A(?:including|excluding)\z} },
       virtual_match_string => { name => 'virtualMatchString', validation => qr{.} },
+      has_cert_alerts      => { name => 'hasCertAlerts'     , boolean => 1 },
+      has_cert_notes       => { name => 'hasCertNotes'      , boolean => 1 },
+      has_kev              => { name => 'hasKev'            , boolean => 1 },
+      has_oval             => { name => 'hasOval'           , boolean => 1 },
+      is_vulnerable        => { name => 'isVulnerable'      , boolean => 1 },
+      keyword_exact_match  => { name => 'keywordExactMatch' , boolean => 1 },
+      no_rejected          => { name => 'noRejected'        , boolean => 1 },
     );
 
     my @params;
@@ -99,9 +97,9 @@ Net::NVD - query CVE data from NIST's NVD (National Vulnerability Database)
     my $cve = $nvd->get( 'CVE-2019-1010218' );
 
     my @cves = $nvd->search(
-        keyword_search => 'perl cpan',
+        keyword_search      => 'perl cpan',
         last_mod_start_date => '2023-01-15T13:00:00.000-03:00',
-        no_rejected => 1,
+        no_rejected         => 1,
     );
 
 =head1 DESCRIPTION
