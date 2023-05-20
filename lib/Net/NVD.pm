@@ -25,7 +25,6 @@ package Net::NVD {
   }
 
   sub _build_user_agent($api_key) {
-    # TODO: Makefile.PL should include Mozilla::CA
     return HTTP::Tiny->new(
       agent      => __PACKAGE__ . '/' . $VERSION,
       verify_SSL => 1,
