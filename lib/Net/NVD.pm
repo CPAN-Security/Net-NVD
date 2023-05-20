@@ -16,7 +16,7 @@ package Net::NVD {
 
   sub get ($self, $cve_id) {
     my ($single) = $self->search( cve_id => $cve_id );
-    return $single->{cve};
+    return $single ? $single->{cve} : ();
   }
 
   sub search ($self, %params) {
