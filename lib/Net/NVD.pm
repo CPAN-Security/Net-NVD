@@ -103,7 +103,7 @@ Net::NVD - query CVE data from NIST's NVD (National Vulnerability Database)
 
 =head1 DESCRIPTION
 
-This modules provides a Perl interface to L<< NIST's National Vulnerability Database (NVD) | https://nvd.nist.gov/>>, allowing developers to search and retrieve CVE (Common Vulnerabilities and Exposures) information.
+This modules provides a Perl interface to L<< NIST's National Vulnerability Database (NVD) | https://nvd.nist.gov/ >>, allowing developers to search and retrieve CVE (Common Vulnerabilities and Exposures) information.
 
 =head1 METHODS
 
@@ -150,25 +150,25 @@ Queries NVD's API with the following parameters:
 
 =item * cwe_id - a CWE (Common Weakness Enumeration) id.
 
-=item * has_cert_alerts - set to true to return only CVEs containing a Technical Alert from US-CERT.
+=item * has_cert_alerts - set to true to return only CVE's containing a Technical Alert from US-CERT.
 
-=item * has_cert_notes - set to true to return only CVEs containing a Vulnerability Note from CERT/CC.
+=item * has_cert_notes - set to true to return only CVE's containing a Vulnerability Note from CERT/CC.
 
-=item * has_kev - set to true to return only CVEs that appear in CISA's L<Known Exploited Vulnerabilities (KEV) Catalog|https://www.cisa.gov/known-exploited-vulnerabilities-catalog>.
+=item * has_kev - set to true to return only CVE's that appear in CISA's L<Known Exploited Vulnerabilities (KEV) Catalog|https://www.cisa.gov/known-exploited-vulnerabilities-catalog>.
 
-=item * has_oval - set to true to return only CVEs that contain information from MITRE's L<Open Vulnerability and Assessment Language (OVAL)|https://oval.mitre.org/inuse/> before this transitioned to the Center for Internet Security (CIS).
+=item * has_oval - set to true to return only CVE's that contain information from MITRE's L<Open Vulnerability and Assessment Language (OVAL)|https://oval.mitre.org/inuse/> before this transitioned to the Center for Internet Security (CIS).
 
-=item * is_vulnerable - set to true to return only CVEs associated with a specific CPE, where the CPE is also considered vulnerable (if you use this parameter, you must also set C<cpe_name>).
+=item * is_vulnerable - set to true to return only CVE's associated with a specific CPE, where the CPE is also considered vulnerable (if you use this parameter, you must also set C<cpe_name>).
 
-=item * keyword_search - return CVEs with ANY of the given words found in the current description. To search for an exact phrase, set C<keyword_exact_match> to true.
+=item * keyword_search - return CVE's with ANY of the given words found in the current description. To search for an exact phrase, set C<keyword_exact_match> to true.
 
 =item * keyword_exact_match - set to true to make C<keyword_search> look for an exact phrase match.
 
-=item * last_mod_start_date / last_mod_end_date - CVEs that were last modified during the specified period (iso8061 format). Must be used together.
+=item * last_mod_start_date / last_mod_end_date - CVE's that were last modified during the specified period (iso8061 format). Must be used together.
 
 =item * no_rejected - set to true to return only CVE records with the REJECT or Rejected status.
 
-=item * pub_start_date / pub_end_date - CVEs that were added to NVD (i.e. published) during the specified period (iso8061 format). Must be used together.
+=item * pub_start_date / pub_end_date - CVE's that were added to NVD (i.e. published) during the specified period (iso8061 format). Must be used together.
 
 =item * results_per_page - maximum number of CVE records to return. Defaults to the maximum of 2_000 (and NIST recommends you keep it like so).
 
@@ -178,11 +178,11 @@ Queries NVD's API with the following parameters:
 
 =item * virtual_match_string - a broader CPE filter than C<cpe_name>. May be augmented by the parameters below.
 
-=item * version_end - augments C<virtual_match_string> filtering CPEs in specific version ranges.
+=item * version_end - augments C<virtual_match_string> filtering CPE's in specific version ranges.
 
 =item * version_end_type - 'including' or 'excluding', specifying the type for C<version_end>.
 
-=item * version_start - augments C<virtual_match_string> filtering CPEs in the specific version ranges.
+=item * version_start - augments C<virtual_match_string> filtering CPE's in the specific version ranges.
 
 =item * version_start_type - 'including' or 'excluding', specifying the type for C<version_start>.
 
@@ -214,7 +214,7 @@ NECESSARY SERVICING, REPAIR, OR CORRECTION.
 
 IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
 WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENSE, BE
 LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
 OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
 THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
