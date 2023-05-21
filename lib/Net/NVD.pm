@@ -7,7 +7,7 @@ use Carp ();
 use JSON ();
 use HTTP::Tiny;
 
-our $VERSION = '0.0.1';
+our $VERSION = '0.0.2';
 
 package Net::NVD {
   sub new ($class, %args) {

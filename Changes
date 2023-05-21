@@ -1,0 +1,9 @@
+Revision history for Net-NVD
+
+0.0.2 2023-05-20
+    - add missing dependencies
+    - add missing files from release
+    - documentation fixes
+
+0.0.1 2023-05-20
+    - First release.
