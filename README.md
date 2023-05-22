@@ -32,6 +32,6 @@ Please refer to [this module's complete documentation](https://metacpan.org/pod/
 for extra information.
 
 This module is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself. See L<perlartistic>.
+under the same terms as Perl itself. See [perlartistic](http://dev.perl.org/licenses/).
 
 This product uses data from the NVD API but is not endorsed or certified by the NVD.
