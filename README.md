@@ -1,6 +1,6 @@
 ## Net::NVD
 
-Perl interface to L<< NIST's National Vulnerability Database (NVD) | https://nvd.nist.gov/>>, allowing developers to search and retrieve CVE (Common Vulnerabilities and Exposures) information.
+Perl interface to [NIST's National Vulnerability Database (NVD)](https://nvd.nist.gov/), allowing developers to search and retrieve [CVE (Common Vulnerabilities and Exposures)](https://cve.mitre.org/) information.
 
 ```perl
     use Net::NVD;
