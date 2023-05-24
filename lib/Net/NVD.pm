@@ -128,7 +128,7 @@ Retrieves data for a given CVE. It is a shortcut to:
 =head2 search( %params )
 
     my @cves = $nvd->search(
-      keyword search      => 'Microsoft Outlook',
+      keyword_search      => 'Microsoft Outlook',
       keyword_exact_match => true,
     );
 
