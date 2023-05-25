@@ -11,17 +11,28 @@ our $VERSION = '0.0.2';
 
 package Net::NVD {
   sub new ($class, %args) {
-    return bless { ua => _build_user_agent($args{api_key}) }, $class;
+    Carp::croak('"format" must be "cve" or "complete"')
+      if exists $args{format} && $args{format} ne 'complete' && $args{format} ne 'cve';
+    return bless {
+      ua     => _build_user_agent($args{api_key}),
+      format => $args{format} // 'cve',
+    }, $class;
   }
 
   sub get ($self, $cve_id) {
     my ($single) = $self->search( cve_id => $cve_id );
-    return $single ? $single->{cve} : ();
+    return $single;
   }
 
   sub search ($self, %params) {
     my $res = $self->{ua}->request('GET', 'https://services.nvd.nist.gov/rest/json/cves/2.0?' . _build_url_params($self->{ua}, %params));
-    return $res->{success} ? (JSON::decode_json($res->{content}))[0]{vulnerabilities}->@* : ();
+    if ($res->{success}) {
+      my $json = JSON::decode_json($res->{content});
+      return $self->{format} eq 'complete'
+        ? $json : map $_->{cve}, $json->{vulnerabilities}->@*;
+    }
+    Carp::carp($res->{headers}{message} // "error querying NVD service ($res->{status})");
+    return ();
   }
 
   sub _build_user_agent($api_key) {
