@@ -24,7 +24,7 @@ my @multiple = $nvd->search(
 );
 is $requested_uri, 'https://services.nvd.nist.gov/rest/json/cves/2.0?noRejected&keywordSearch=perl+cpan&lastModStartDate=2023-01-15T13%3A00%3A00%2B01%3A00', 'request for multiple CVEs';
 
-is_deeply \@multiple, [{ cve => { descriptions => [{ lang => 'en', value => 'Some vuln in Foo'}], id => 'CVE-0000-0001' }}, {cve => { descriptions => [{ lang => 'en', value => 'Other vuln in Foo'}], id => 'CVE-0000-0002' }}, {cve => {descriptions => [{ lang => 'en', value => 'A vuln in Bar' }], id => 'CVE-0000-0003'}}], 'proper return value for search()';
+is_deeply \@multiple, [{ descriptions => [{ lang => 'en', value => 'Some vuln in Foo'}], id => 'CVE-0000-0001'}, {descriptions => [{ lang => 'en', value => 'Other vuln in Foo'}], id => 'CVE-0000-0002' }, {descriptions => [{ lang => 'en', value => 'A vuln in Bar' }], id => 'CVE-0000-0003'}], 'proper return value for search()';
 
 sub _request_mock ($self, $method, $url) {
   $requested_uri = $url;
