@@ -104,29 +104,51 @@ Net::NVD - query CVE data from NIST's NVD (National Vulnerability Database)
 
     my $nvd = Net::NVD->new;
 
+    # query a specific CVE
     my $cve = $nvd->get( 'CVE-2019-1010218' );
+    say $cve->{descriptions}[0]{value};
 
+    # get non-rejected reports matching some keywords and a date interval:
     my @cves = $nvd->search(
         keyword_search      => 'perl cpan',
-        last_mod_start_date => '2023-01-15T13:00:00.000-03:00',
+        last_mod_start_date => '2023-01-01T00:00:00',
+        last_mod_end_date   => '2023-04-01T00:00:00',
         no_rejected         => 1,
     );
 
+    foreach my $report (@cves) {
+        say "$report->{id} (published in $report->{id}{published})";
+        say "$report->{descriptions}[0]{value}";
+    }
+
 =head1 DESCRIPTION
 
-This modules provides a Perl interface to L<< NIST's National Vulnerability Database (NVD) | https://nvd.nist.gov/ >>, allowing developers to search and retrieve CVE (Common Vulnerabilities and Exposures) information.
+This modules provides a Perl interface to L<< NIST's National Vulnerability Database (NVD) | https://nvd.nist.gov/ >>, allowing developers to search and retrieve L<< CVE (Common Vulnerabilities and Exposures) | https://cve.mitre.org >> information.
 
 =head1 METHODS
 
 =head2 new( %params )
 
     my $nvd = Net::NVD->new;
-    my $nvd = Net::NVD->new( api_key => 'your secret key' );
+    my $nvd = Net::NVD->new(
+      api_key => 'your secret key',
+      format  => 'complete',
+    );
 
 Instantiates a new object. If you want a better rate limit, you should
 L<request an API key|https://nvd.nist.gov/developers/request-an-api-key>
 for your organization. But you should probably only do it if you
 actually hit the limit, as their API is quite generous.
+
+You may also specify the C<format> of the output. Available are:
+
+=over 4
+
+=item * B<cve> (default) - returns only the actual CVE portion.
+
+=item * B<complete> - returns the entire data structure from NVD.
+
+=back
 
 =head2 get( $cve_id )
 
@@ -200,6 +222,96 @@ Queries NVD's API with the following parameters:
 =back
 
 Please refer to L<NIST NVD API Specification|https://nvd.nist.gov/developers/vulnerabilities> for more information on the search parameters above.
+
+=head2 Return Values
+
+A typical CVE portion on this API looks like this:
+
+    {
+      configurations => [{
+          nodes => [{
+            cpeMatch => [{
+              criteria => '(some CPE value)',
+              matchCriteriaId => '(some id)',
+              vulnerable => true,
+            }],
+            negate   => false,
+            operator => 'OR',
+          }],
+      }],
+      descriptions => [
+        {
+          lang  => 'en',
+          value => 'the CVE description, in english',
+        },
+        {
+          lang  => 'es',
+          value => 'la descripción del CVE, en español',
+        },
+      ],
+      id => 'CVE-YYYY-NNNNN',  # the current CVE id
+      lastModified => 'YYYY-MM-DDThh:mm:ss',
+      metricts => {
+        cvssMetricV2  => [{ ... }],
+        cvssMetricV30 => [{ ... }],
+        cvssMetricV31 => [{ ... }],
+      },
+      published => 'YYYY-MM-DDThh:mm:ss',
+      references => [
+        {
+          source => 'source handle',
+          tags => [ 'tag1', 'tag2', ... ],
+          url => 'where to find the reference',
+        },
+        { ...}
+      ],
+      sourceIdentifier => 'source handle',
+      vulnStatus => 'Analyzed',
+      weaknesses => [{
+        description => [{ lang => 'en', value => 'CWD-NNNN' }],
+        source      => 'source handle',
+        type        => 'Primary',
+      }],
+    }
+
+Expect a single one of these when you call C<get()>, and an array of these
+when you call C<search()>. If you have set the C<format> to 'complete', the
+return value will instead be:
+
+    {
+      format => 'NVD_CVE',
+      resultsPerPage => 10,  # some integer
+      startIndex     => 0,   # some integer
+      timestamp      => 'YYYY-MM-DDThh:mm:ss', # when the request was processed
+      totalResults   => 4,   # some integer
+      version        => 2.0, # API version
+      vulnerabilities => [
+        { cve => $cve_hashref },
+        { cve => $cve_hashref },
+        ...
+      ],
+    }
+
+Of course, when your result only have one CVE (e.g. you called C<get()>), the
+'complete' format will still include this header, but you can expect only one
+element in C<< $ret->vulnerabilities->[0] >>.
+
+B<NOTE>: NVD mentions there could be up to four different JSON formats. Please
+L<check here|https://nvd.nist.gov/developers/vulnerabilities> to get extra
+information on possible return values. If in doubt, request in 'complete'
+format and dump the output using a tool like Data::Printer (DDP).
+
+    my $result = Net::NVD->new( format => 'complete' )->get('CVE-2003-0521');
+    use DDP; p $result;
+
+=head1 SEE ALSO
+
+L<Net::OSV>
+
+L<Net::CVE>
+
+L<CPAN::Audit>
+
 
 =head1 LICENSE AND COPYRIGHT
 
