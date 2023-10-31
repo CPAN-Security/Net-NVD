@@ -93,6 +93,7 @@ package Net::NVD {
 
 1;
 __END__
+=encoding utf-8
 
 =head1 NAME
 
@@ -123,7 +124,7 @@ Net::NVD - query CVE data from NIST's NVD (National Vulnerability Database)
 
 =head1 DESCRIPTION
 
-This modules provides a Perl interface to L<< NIST's National Vulnerability Database (NVD) | https://nvd.nist.gov/ >>, allowing developers to search and retrieve L<< CVE (Common Vulnerabilities and Exposures) | https://cve.mitre.org >> information.
+This modules provides a Perl interface to L<< NIST's National Vulnerability Database (NVD)|https://nvd.nist.gov/ >>, allowing developers to search and retrieve L<< CVE (Common Vulnerabilities and Exposures)|https://cve.mitre.org >> information.
 
 =head1 METHODS
 
